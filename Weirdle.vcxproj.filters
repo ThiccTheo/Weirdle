@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\game\Game.cpp" />
+    <ClCompile Include="src\game\main.cpp" />
+    <ClCompile Include="src\data\Data.cpp" />
+    <ClCompile Include="src\resource\Resource.cpp" />
+    <ClCompile Include="src\tile\Tile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\game\Game.h" />
+    <ClInclude Include="vendor\Vendor.h" />
+    <ClInclude Include="src\game\Common.h" />
+    <ClInclude Include="src\data\Data.h" />
+    <ClInclude Include="src\resource\Resource.h" />
+    <ClInclude Include="src\tile\Tile.h" />
+  </ItemGroup>
+</Project>
