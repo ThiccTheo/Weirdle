@@ -45,7 +45,6 @@ void Tile::init() {
 	}
 
 	hiddenWord = Data::words[Game::wordLength - 1][rand() % Data::words[Game::wordLength-1].size()];
-	hiddenWord = "SCATS";
 }
 
 void Tile::draw() {
