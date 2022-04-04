@@ -13,6 +13,7 @@ const int Tile::keyDelay = 8;
 int Tile::keyCounter = 8;
 char Tile::currentKey = ' ';
 int Tile::guesses = 0;
+string Tile::addedWord;
 
 Tile::Tile(int x, int y) {
 	sprite.setTexture(Resource::tileTexture);
@@ -35,6 +36,7 @@ void Tile::init() {
 	hiddenWord = "";
 	currentKey = ' ';
 	guesses = 0;
+	addedWord = "";
 
 	for (int i = 0; i < Game::wordLength + 1; i++) {
 		for (int j = 0; j < Game::wordLength; j++) {
@@ -43,6 +45,7 @@ void Tile::init() {
 	}
 
 	hiddenWord = Data::words[Game::wordLength - 1][rand() % Data::words[Game::wordLength-1].size()];
+	hiddenWord = "SCATS";
 }
 
 void Tile::draw() {
@@ -65,7 +68,6 @@ void Tile::update() {
 				v_tile[currentX + (currentY * Game::wordLength)].index = i;
 				currentX++;
 			}
-
 			break;
 		}
 	}
@@ -89,10 +91,13 @@ void Tile::update() {
 				for (size_t j = 0; j < hiddenWord.length(); j++) {
 					if (v_tile[i + (currentY * Game::wordLength)].letter.getString() == temp[j]) {
 						temp[j] = '_';
-						v_tile[i + (currentY * Game::wordLength)].sprite.setTextureRect(IntRect(120, 0, 60, 60));
+						if (v_tile[i + (currentY * Game::wordLength)].sprite.getTextureRect() != IntRect(180, 0, 60, 60)) {
+							v_tile[i + (currentY * Game::wordLength)].sprite.setTextureRect(IntRect(120, 0, 60, 60));
+						}
 						if (KEY::keyVector[v_tile[i + (currentY * Game::wordLength)].index].box.getFillColor() != Color(106, 170, 100)) {
 							KEY::keyVector[v_tile[i + (currentY * Game::wordLength)].index].box.setFillColor(Color(201, 180, 104));
 						}
+						break;
 					}
 				}
 				if (v_tile[i + (currentY * Game::wordLength)].sprite.getTextureRect() == IntRect(0, 0, 60, 60)) {
@@ -102,13 +107,10 @@ void Tile::update() {
 						KEY::keyVector[v_tile[i + (currentY * Game::wordLength)].index].box.setFillColor(Color(120, 124, 126));
 					}
 				}
+
 			}
 
-			string check;
-			for (size_t i = 0; i < temp.length(); i++) {
-				check += '_';
-			}
-			if (check == temp) {
+			if (addedWord == hiddenWord) {
 				Game::isWon = true;
 			}
 
@@ -120,10 +122,10 @@ void Tile::update() {
 			}
 			else {
 				guesses++;
-				if (check == temp) {
+				if (addedWord == hiddenWord) {
 					Game::isWon = true;
 				}
-				else if (check != temp) {
+				else if (addedWord != hiddenWord) {
 					Game::isLost = true;
 				}
 			}
@@ -143,13 +145,13 @@ void Tile::update() {
 }
 
 bool Tile::checkValidity() {
-	string temp;
+	addedWord = "";
 	for (int i = 0; i < Game::wordLength; i++) {
-		temp += v_tile[i + (currentY * Game::wordLength)].letter.getString();
+		addedWord += v_tile[i + (currentY * Game::wordLength)].letter.getString();
 	}
 	
 	for (size_t i = 0; i < Data::words[Game::wordLength - 1].size(); i++) {
-		if (temp == Data::words[Game::wordLength - 1][i]) {
+		if (addedWord == Data::words[Game::wordLength - 1][i]) {
 			return true;
 		}
 	}

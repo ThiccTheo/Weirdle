@@ -106,7 +106,7 @@ void Game::gameOver(bool flag) {
         wordText.setOutlineColor(Color::Black);
         wordText.setOutlineThickness(1.f);
         wordText.setCharacterSize(30);
-        wordText.setLetterSpacing(1.2);
+        wordText.setLetterSpacing(2);
         wordText.setString(Tile::hiddenWord);
         wordText.setOrigin(wordText.getLocalBounds().width / 2.f, wordText.getLocalBounds().height / 2.f);
         wordText.setPosition(window.getSize().x / 2.f, 60.f);

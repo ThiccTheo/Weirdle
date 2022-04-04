@@ -22,4 +22,5 @@ private:
 	static const int keyDelay;
 	static bool checkValidity();
 	Tile(int x, int y);
+	static string addedWord;
 };
