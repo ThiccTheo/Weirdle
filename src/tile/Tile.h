@@ -11,6 +11,7 @@ public:
 	static int guesses;
 	static string hiddenWord;
 private:
+	int index;
 	Sprite sprite;
 	Text letter;
 	static vector<Tile> v_tile;

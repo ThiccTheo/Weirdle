@@ -2,6 +2,7 @@
 #include "../data/Data.h"
 #include "../resource/Resource.h"
 #include "../tile/Tile.h"
+#include "../keyboard/Keyboard.h"
 
 RenderWindow Game::window;
 const unsigned int Game::WIDTH = 300;
@@ -67,7 +68,7 @@ void Game::getWordLength() {
 
     Game::wordLength = temp;
     View view;
-    window.setSize(Vector2u(static_cast<unsigned int>(Game::wordLength * Tile::size), static_cast<unsigned int>((Game::wordLength * Tile::size) + Tile::size)));
+    window.setSize(Vector2u(static_cast<unsigned int>(Data::MAX_WORD_LENGTH * Tile::size), static_cast<unsigned int>((Game::wordLength * Tile::size) + Tile::size) + 120));
     view = window.getView();
     view.setCenter(window.getSize().x / 2.f, window.getSize().y / 2.f);
     view.setSize(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
@@ -105,6 +106,7 @@ void Game::gameOver(bool flag) {
         wordText.setOutlineColor(Color::Black);
         wordText.setOutlineThickness(1.f);
         wordText.setCharacterSize(30);
+        wordText.setLetterSpacing(1.2);
         wordText.setString(Tile::hiddenWord);
         wordText.setOrigin(wordText.getLocalBounds().width / 2.f, wordText.getLocalBounds().height / 2.f);
         wordText.setPosition(window.getSize().x / 2.f, 60.f);
@@ -135,6 +137,7 @@ void Game::run() {
     getWordLength();
 
     Tile::init();
+    KEY::init();
     isLost = false;
     isWon = false;
 
@@ -149,6 +152,7 @@ void Game::run() {
 
         window.clear(Color::White);
         Tile::draw();
+        KEY::draw();
         window.display();
         if (!isLost && !isWon) {
             Tile::update();

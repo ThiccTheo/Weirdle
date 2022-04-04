@@ -2,6 +2,7 @@
 #include "../game/Game.h"
 #include "../resource/Resource.h"
 #include "../data/Data.h"
+#include "../keyboard/Keyboard.h"
 
 vector<Tile> Tile::v_tile;
 const int Tile::size = 60;
@@ -18,7 +19,7 @@ Tile::Tile(int x, int y) {
 	sprite.setTextureRect(IntRect(0, 0, 60, 60));
 	x *= size;
 	y *= size;
-	sprite.setPosition(static_cast<float>(x), static_cast<float>(y));
+	sprite.setPosition(static_cast<float>(x + (Game::window.getSize().x / 2 - Game::wordLength * 30)), static_cast<float>(y));
 	letter.setFont(Resource::comfortaa);
 	letter.setFillColor(Color::Black);
 	letter.setPosition(sprite.getPosition().x + 18.f, sprite.getPosition().y + 15.f);
@@ -26,6 +27,15 @@ Tile::Tile(int x, int y) {
 }
 
 void Tile::init() {
+	if (v_tile.size() > 0) {
+		v_tile.clear();
+	}
+	currentX = 0;
+	currentY = 0;
+	hiddenWord = "";
+	currentKey = ' ';
+	guesses = 0;
+
 	for (int i = 0; i < Game::wordLength + 1; i++) {
 		for (int j = 0; j < Game::wordLength; j++) {
 			v_tile.push_back(Tile(j, i));
@@ -52,6 +62,7 @@ void Tile::update() {
 			keyCounter = 0;
 			if (currentX < Game::wordLength) {
 				v_tile[currentX + (currentY * Game::wordLength)].letter.setString(currentKey);
+				v_tile[currentX + (currentY * Game::wordLength)].index = i;
 				currentX++;
 			}
 
@@ -71,6 +82,7 @@ void Tile::update() {
 				if (v_tile[i + (currentY * Game::wordLength)].letter.getString() == hiddenWord[i]) {
 					v_tile[i + (currentY * Game::wordLength)].sprite.setTextureRect(IntRect(180, 0, 60, 60));
 					temp[i] = '_';
+					KEY::keyVector[v_tile[i + (currentY * Game::wordLength)].index].box.setFillColor(Color(106, 170, 100));
 				}
 			}
 			for (size_t i = 0; i < hiddenWord.length(); i++) {
@@ -78,10 +90,17 @@ void Tile::update() {
 					if (v_tile[i + (currentY * Game::wordLength)].letter.getString() == temp[j]) {
 						temp[j] = '_';
 						v_tile[i + (currentY * Game::wordLength)].sprite.setTextureRect(IntRect(120, 0, 60, 60));
+						if (KEY::keyVector[v_tile[i + (currentY * Game::wordLength)].index].box.getFillColor() != Color(106, 170, 100)) {
+							KEY::keyVector[v_tile[i + (currentY * Game::wordLength)].index].box.setFillColor(Color(201, 180, 104));
+						}
 					}
 				}
 				if (v_tile[i + (currentY * Game::wordLength)].sprite.getTextureRect() == IntRect(0, 0, 60, 60)) {
+					auto& tile = v_tile[i + (currentY * Game::wordLength)];
 					v_tile[i + (currentY * Game::wordLength)].sprite.setTextureRect(IntRect(60, 0, 60, 60));
+					if (KEY::keyVector[tile.index].box.getFillColor() != Color(106, 170, 100) && KEY::keyVector[tile.index].box.getFillColor() != Color(201, 180, 104)) {
+						KEY::keyVector[v_tile[i + (currentY * Game::wordLength)].index].box.setFillColor(Color(120, 124, 126));
+					}
 				}
 			}
 
@@ -112,7 +131,6 @@ void Tile::update() {
 	}
 
 	if (keyCounter >= keyDelay && Keyboard::isKeyPressed(Keyboard::Backspace)) {
-		v_tile[currentX + (currentY * Game::wordLength)].letter.setString(' ');
 		if (currentX > Game::wordLength) {
 			currentX = Game::wordLength;
 		}

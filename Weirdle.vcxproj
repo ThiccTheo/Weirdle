@@ -22,6 +22,7 @@
     <ClCompile Include="src\data\Data.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\main.cpp" />
+    <ClCompile Include="src\keyboard\Keyboard.cpp" />
     <ClCompile Include="src\resource\Resource.cpp" />
     <ClCompile Include="src\tile\Tile.cpp" />
   </ItemGroup>
@@ -29,6 +30,7 @@
     <ClInclude Include="src\data\Data.h" />
     <ClInclude Include="src\game\Common.h" />
     <ClInclude Include="src\game\Game.h" />
+    <ClInclude Include="src\keyboard\Keyboard.h" />
     <ClInclude Include="src\resource\Resource.h" />
     <ClInclude Include="src\tile\Tile.h" />
     <ClInclude Include="vendor\Vendor.h" />
