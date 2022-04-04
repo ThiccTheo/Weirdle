@@ -134,6 +134,7 @@ void Game::gameOver(bool flag) {
 }
 
 void Game::run() {
+    cout << "\033[H\033[J";
     getWordLength();
 
     Tile::init();
