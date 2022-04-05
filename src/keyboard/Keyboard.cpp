@@ -25,10 +25,10 @@ void KEY::init() {
     for (int i = 0; i <= 25; i++) {
         keyVector.push_back(i);
         if (i < 13) {
-            keyVector[i].box.setPosition(static_cast<float>(Game::window.getSize().x / 2.f - 234.f + (i * 36)), Game::window.getSize().y - 100.f);
+            keyVector[i].box.setPosition(static_cast<float>(Game::window.getSize().x / 2.f - 260.f + (i * 40)), Game::window.getSize().y - 100.f);
         }
         else {
-            keyVector[i].box.setPosition(static_cast<float>(Game::window.getSize().x / 2.f - 234.f + ((i - 13) * 36.f)), Game::window.getSize().y - 50.f);
+            keyVector[i].box.setPosition(static_cast<float>(Game::window.getSize().x / 2.f - 260.f + ((i - 13) * 40.f)), Game::window.getSize().y - 50.f);
         }
         keyVector[i].text.setPosition(keyVector[i].box.getPosition().x + 5.f, keyVector[i].box.getPosition().y);
     }
