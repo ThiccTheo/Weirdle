@@ -97,7 +97,7 @@ void Game::gameOver(bool flag) {
         loseText.setOutlineColor(Color::Black);
         loseText.setOutlineThickness(1.f);
         loseText.setCharacterSize(40);
-        loseText.setString("WORD WAS:");
+        loseText.setString(" WORD WAS");
         loseText.setPosition(23.f, 0.f);
         
         Text wordText;
