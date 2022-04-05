@@ -23,4 +23,5 @@ private:
 	static bool checkValidity();
 	Tile(int x, int y);
 	static string addedWord;
+	static void showError();
 };

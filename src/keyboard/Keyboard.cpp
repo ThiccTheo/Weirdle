@@ -12,11 +12,12 @@ KEY::KEY(int value) {
     text.setCharacterSize(25);
     box.setSize(Vector2f(30.f, 30.f));
     box.setOutlineColor(Color::Black);
-    box.setOutlineThickness(1.f);
+    box.setOutlineThickness(2.f);
     box.setFillColor(Color::White);
 }
 //ASCII VALUE: A = 65, Z = 90
 //Get letter and add 65 to find the char equivalent
+
 void KEY::init() {
     if (keyVector.size() > 0) {
         keyVector.clear();

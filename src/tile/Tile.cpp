@@ -43,7 +43,6 @@ void Tile::init() {
 			v_tile.push_back(Tile(j, i));
 		}
 	}
-
 	hiddenWord = Data::words[Game::wordLength - 1][rand() % Data::words[Game::wordLength-1].size()];
 }
 
@@ -76,7 +75,7 @@ void Tile::update() {
 		keyCounter = 0;
 	}
 
-	if (keyCounter >= keyDelay && currentX >= Game::wordLength - 1 && Keyboard::isKeyPressed(Keyboard::Enter)) {
+	if (keyCounter >= keyDelay && currentX >= Game::wordLength && Keyboard::isKeyPressed(Keyboard::Enter)) {
 		if (checkValidity()) {
 			string hidden = hiddenWord;
 			string input = addedWord;
@@ -143,6 +142,9 @@ void Tile::update() {
 				}
 			}
 		}
+		else {
+			showError();
+		}
 	}
 
 	if (keyCounter >= keyDelay && Keyboard::isKeyPressed(Keyboard::Backspace)) {
@@ -169,4 +171,17 @@ bool Tile::checkValidity() {
 		}
 	}
 	return false;
+}
+
+void Tile::showError() {
+	while (!(Keyboard::isKeyPressed(Keyboard::Backspace))) {
+		for (size_t i = 0; i < Game::wordLength; i++) {
+			v_tile[i + (currentY * Game::wordLength)].sprite.setTextureRect(IntRect(240, 0, 60, 60));
+		}
+		draw();
+		Game::window.display();
+	}
+	for (size_t i = 0; i < Game::wordLength; i++) {
+		v_tile[i + (currentY * Game::wordLength)].sprite.setTextureRect(IntRect(0, 0, 60, 60));
+	}
 }
