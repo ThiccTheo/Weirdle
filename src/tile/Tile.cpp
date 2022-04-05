@@ -78,28 +78,44 @@ void Tile::update() {
 
 	if (keyCounter >= keyDelay && currentX >= Game::wordLength - 1 && Keyboard::isKeyPressed(Keyboard::Enter)) {
 		if (checkValidity()) {
-			for (size_t i = 0; i < hiddenWord.length(); i++) {
-				if (v_tile[i + (currentY * Game::wordLength)].letter.getString() == hiddenWord[i]) {
-					v_tile[i + (currentY * Game::wordLength)].sprite.setTextureRect(IntRect(180, 0, 60, 60));
-					KEY::keyVector[v_tile[i + (currentY * Game::wordLength)].index].box.setFillColor(Color(106, 170, 100));
+			string hidden = hiddenWord;
+			string input = addedWord;
+
+			//greens
+			for (int i = 0; i < Game::wordLength; i++) {
+				if (input[i] == hidden[i]) {
+					input[i] = '%';
+					hidden[i] = '_';
 				}
 			}
-			string temp = hiddenWord;
-			for (size_t i = 0; i < hiddenWord.length(); i++) {
-				auto& tile = v_tile[i + (currentY * Game::wordLength)];
-				for (size_t j = 0; j < hiddenWord.length(); j++) {
-					if (tile.letter.getString() == temp[j]) {
-						temp[j] = '_';
-						if (tile.sprite.getTextureRect() != IntRect(180, 0, 60, 60)) {
-							tile.sprite.setTextureRect(IntRect(120, 0, 60, 60));
-							if (KEY::keyVector[tile.index].box.getFillColor() != Color(106, 170, 100)) {
-								KEY::keyVector[tile.index].box.setFillColor(Color(201, 180, 104));
-							}
+
+			//yellow
+			for (int i = 0; i < Game::wordLength; i++) {
+				if (input[i] != '%') {
+					for (int j = 0; j < Game::wordLength; j++) {
+						if (input[i] == hidden[j]) {
+							input[i] = '&';
+							hidden[j] = '_';
+							break;
 						}
-						break;
 					}
 				}
-				if (tile.sprite.getTextureRect() == IntRect(0, 0, 60, 60)) {
+			}
+
+			//coloring
+			for (int i = 0; i < Game::wordLength; i++) {
+				auto& tile = v_tile[i + (currentY * Game::wordLength)];
+				if (input[i] == '%') {
+					tile.sprite.setTextureRect(IntRect(180, 0, 60, 60));
+					KEY::keyVector[tile.index].box.setFillColor(Color(106, 170, 100));
+				}
+				else if (input[i] == '&') {
+					tile.sprite.setTextureRect(IntRect(120, 0, 60, 60));
+					if (KEY::keyVector[tile.index].box.getFillColor() != Color(106, 170, 100)) {
+						KEY::keyVector[tile.index].box.setFillColor(Color(201, 180, 104));
+					}
+				}
+				else {
 					tile.sprite.setTextureRect(IntRect(60, 0, 60, 60));
 					if (KEY::keyVector[tile.index].box.getFillColor() != Color(106, 170, 100) && KEY::keyVector[tile.index].box.getFillColor() != Color(201, 180, 104)) {
 						KEY::keyVector[tile.index].box.setFillColor(Color(120, 124, 126));
