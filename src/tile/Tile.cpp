@@ -70,11 +70,6 @@ void Tile::update() {
 		}
 	}
 
-	if (keyCounter >= keyDelay && Keyboard::isKeyPressed(Keyboard::LBracket)) {
-		cout << hiddenWord << '\n';
-		keyCounter = 0;
-	}
-
 	if (keyCounter >= keyDelay && currentX >= Game::wordLength && Keyboard::isKeyPressed(Keyboard::Enter)) {
 		if (checkValidity()) {
 			string hidden = hiddenWord;
